@@ -1,0 +1,17 @@
+"0","install.packages(""blogdown"")"
+"1","Error in "
+"1",""
+"1","install.packages"
+"1",""
+"1"," : "
+"1",""
+"1","Updating loaded packages"
+"1",""
+"1","
+"
+"0","blogdown::install_hugo()"
+"2","The latest Hugo version is NA
+"
+"2","Error in blogdown::install_hugo() : 
+  The Hugo version NA does not seem to exist.
+"

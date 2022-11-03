@@ -1,0 +1,23 @@
+library(tidyverse)
+library(USAboundaries)
+library(RColorBrewer)
+
+
+if (require("maps")) {
+  states <- map_data("state")
+  mydata  <- read_csv("data-table.csv")
+  names(mydata ) <- tolower(names(mydata ))
+  mydata$region=tolower(mydata$location)
+  
+  choro <- merge(states, mydata, sort = FALSE, by="region")
+  choro <- choro[order(choro$order), ]
+  choro <- choro %>% 
+    mutate(color=ifelse(case_range=="1 to 10",15,
+                        ifelse(case_range=="11 to 50",25,
+                               ifelse(case_range=="51 to 100",75,
+                                      ifelse(case_range=="101 to 500",400,600)))))
+  ggplot(choro, aes(long, lat)) +
+    geom_polygon(aes(group = group,fill = color)) +
+    coord_map("albers",  lat0 = 45.5, lat1 = 29.5)
+    
+}

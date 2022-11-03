@@ -1,0 +1,402 @@
+---
+title: "COMM2501/5501 Lab Notes"
+subtitle: "Week 5: R projects, Rmd and Blogdown"
+toc: yes
+toc_depth: "3"
+output: pdf_document
+---
+
+\newpage
+
+This week's lab will focus on creating a blog with R Blogdown. We will use week 4 lab material to generate the blog posts.
+<!-- But first make sure you have the required software and packages installed (see Installations required section). -->
+
+# Installations required (prior to the lab)
+
+You will need to do the following installations only once or when updates are available (or if you have un-installed some of the software or packages). You will not need to do it before each R session.
+
+## TeX and Pandoc
+From this lab and onward you will nedd to have the following software installed:\
+- Tex\
+- Pandoc.
+
+Refer to the RLabsBook section 5.2.2.2 Installing to see how:\
+- Installing TeX\
+- Installing Pandoc.
+
+## R Markdown and Blogdown Packages
+From this lab and onward you will also need to have the following R packages:\
+- Markdown\
+- Blogdown.
+
+Open R and in the console type:
+```{r, eval=F}
+install.packages("rmarkdown")
+```
+
+Then type:
+```{r, eval=F}
+install.packages("blogdown")
+blogdown::install_hugo()
+```
+
+See more in the RLabsBook in sections 5.2.3 The R Markdown Package and 5.4.2 How to use Blogdown.
+
+**Note:** Hugo is the site generator on which blogdown is based. Hugo supports different themes for the blog. More on the blog themes will be covered later in this lab. You can also see more in the RLabsBook section 5.4.5 Blogdown: Example.
+
+# Blogdown
+## What is a blog? What is Blogdown?
+
+A blog is a type of website. Blogdown is a R package that allows to create websites from R Studio.
+
+## Setting up the blog
+
+**Exercise:**\
+- Create a new project named *w5LabProjectBlog* with nothing in it (a plain empty project).\
+- Type in the console the following command "blogdown::new_site()" and reply "y" to the question "Want to serve and preview the site now? (y/n)".\
+- Explore the blog which was just created in the bottom right side of R Studio in the Viewer tab!
+
+**Note:** If the folder "public" is not automatically created, type the following command in the console "blogdown::build_site()", this will create the folder "public" (important folder!).
+
+Solution:\
+- Go to "File" in the menu bar of R Studio then to "New Project".\
+- Click on "New Directory", choose the location on your computer for the R project and name the R project *w5LabProjectBlog*. 
+
+This creates your R project, which appears on the bottom right side of R Studio in Files tab and in your chosen folder!
+\- Type now in the console
+
+    blogdown::new_site()
+\- The blog is created and a question appears in the console:\
+"Want to serve and preview the site now? (y/n)" then enter "y". 
+
+This creates the default website with the default theme, sample posts and default formatting. The blog is automatically made viewable in the Viewer tab.
+
+<!-- This also automatically open in R Studio the file "index.Rmd". This will be the home page/first post of the blog.\ -->
+You can see the blog in your browser by clicking on the third icon on the top left of the Viewer tab ("Show in new window").\
+You can see the list of the different pages/posts of the blog by clicking on the orange circle on the top left of the blog.\
+You can see what the default theme should look like in the RLabsBook section 5.4.2.2.1 The Default Website.\
+See files in shared folder>RLabs_students>RLabsNotes_students>w5>w5LabProjectBlog.
+
+## Exploring the files and customizing the default pages
+
+Let's have a look at the important files and folder created (bottom right of R studio in Files tab):\
+- config.toml: controls several aspects of our website, i.e. title, theme, Menu icons, Menu urls\
+- content directory: contains the R Markdown source files, i.e. the original Rmd files for the blog pages\
+- public: the publishing directory, this folder is our website and it is what we need to upload and make available when we want to publish the website. This is generated automatically and there is no need to manually move files to and from.
+
+### Title and menu urls
+
+**Exercise:**\
+- Change the title of the blog to *Statistics from the 1977 US census*\
+- Remove the menu urls GitHub and Twitter\
+- Add a new menu url named *US Census Bureau* with the url: [https://www.census.gov/en.html](https://www.census.gov/en.html)\
+- Save the edited files.
+
+Solution:\
+Open the file config.yaml:\
+- Modify line 3 to:
+
+    title: Statistics from the 1977 US census
+\- Modify line 19-20 to:
+
+    - name: US Census Bureau
+      url: https://www.census.gov/en.html
+\- Delete lines about Twitter url.\
+- Save the edited files. This will automatically update the blog (only in R Studio in Viewer tab, not in your browser!).\
+See files in shared folder>RLabs_students>RLabsNotes_students>w5>w5LabProjectBlog.
+
+### About tab
+
+**Exercise:**\
+- Edit the date in About tab to today's date\
+- Edit the description in About tab with the following:\
+"This blog was created as part of COMM2501/5501 week 5 lab on Blogdown. We will present some statistics from the 1977 US census. Check the Data tab for more information about the data sets."\
+
+Solution:\
+- Click on the content folder in the Files tab, open the file about.md and edit:\
+- the date to today's date\
+- modify the description.\
+- Save the edited files. This will automatically update the blog.\
+See files in shared folder>RLabs_students>RLabsNotes_students>w5>w5LabProjectBlog.
+
+### Existing posts
+
+**Exercise:**\
+- Re-title the first post as "Population size per region and state"\
+- Edit the date to today's date\
+- Add in this post some of the interactive DV from week 4 lab about population size per region and state, you can also add some description about the population size per region and state.\
+- Rename the corresponding folder as "01Population".
+
+Solution:\
+- Click on the content folder in the Files tab, then "post" and "2020-12-01-r-rmarkdown" folders, open the file index.Rmd.\
+- Edit the date as today's date end re-title the post as "Population size per region and state" (you can also modify the tags).\
+- Add in this post some of the interactive DV from week 4 lab about population size per region and state:
+-- We need first to load the libraries and create the final data set with the following code chunks with the option include=F:
+
+```{r, eval=F}
+library(leaflet)
+library(highcharter)
+library(tidyverse)
+US_states77<-data.frame(state.x77) %>%
+  rownames_to_column(., var = "State") %>%
+  tibble(Region = state.region,
+         Division = state.division,
+         Longitude=state.center$x,
+         Latitude=state.center$y)
+```
+
+Alternatively we could have exported the final data set in the folder w5LabProjectBlog instead of loading it for each post.
+
+-- To add some DV we need to add the following code chunks with the option include=F:
+
+```{r, eval=F}
+US_states77 %>%
+  group_by(Region)%>% 
+  summarize(Population=sum(Population))%>%
+  arrange(.,-Population)%>% #order from biggest to smallest
+  hchart(type = "column",
+         hcaes(x = Region,
+               y = Population))%>%
+  hc_xAxis(title=list(text="Regions"))%>%
+  hc_yAxis(title=list(text="Population size (in thousands)"), max=70000)%>%
+  hc_title(text = "<b>Population size per US region in 1975</b>",
+    align = "center", style = list(color = "black"))
+```
+
+```{r, eval=F}
+library("leaflet")
+palette <- colorNumeric(palette = "YlOrRd",domain = US_states77$Life.Exp)
+
+LE_map <- US_states77 %>%
+  leaflet() %>%
+  addTiles() %>%
+  addCircleMarkers(label = ~paste("State: ", State, " LE: ", Life.Exp),
+                   color = ~palette(Life.Exp),
+                   lng = ~Longitude,
+                   lat = ~Latitude)
+widgetframe::frameWidget(LE_map)
+```
+
+```{r, eval=F}
+US_states77 %>%
+  arrange(.,-Population)%>%
+  slice(1:5)%>%
+  hchart(type = "bar",
+         hcaes(x = State,
+               y = Population))%>%
+  hc_xAxis(title=list(text="States"))%>%
+  hc_yAxis(title=list(text="Population size (in thousands)"))%>%
+  hc_title(text = "<b>The 5 most populated US states in 1975</b>",
+    align = "center", style = list(color = "black"))
+```
+
+-- Add an introduction and some description in the post.\
+- Save the edited files. This will automatically update the blog.\
+See files in shared folder>RLabs_students>RLabsNotes_students>w5>w5LabProjectBlog.
+
+We now have our first post in our blog!
+
+## Creating new posts
+
+**Exercise:**\
+- Delete the other default posts (i.e. except "Population size per region and state")\
+- Create a new post titled "Income and life expectancy per region and state"\
+- Add in this post some of the interactive DV from week 4 lab about Income and life expectancy per region and state, you can also add some description about the Income and life expectancy per region and state.
+
+Solution:\
+- In content folder, select the folders "2015-01-01-lorem-ipsum" and "2016-12-30-hello-markdown" and click on Delete to delete the corresponding posts.\
+- In content folder, select the folder "01Population" and copy the folder and name the copy "02IncomeLE". Alternatively you can update the blog with the “New Post” addin (top section of R Studio, see RLabsBook section 5.4.3 R Studio ‘Addins’ with Blogdown).\
+- Click on "02IncomeLE" folder, open index.Rmd and modify the post:\
+-- We can modify the date as yesterday's date such that the new post is displayed after the post "Population size per region and state".\
+-- We first need to load the libraries and create the final data set with the following code chunks with the option include=F:
+
+```{r, eval=F}
+library(highcharter)
+library(tidyverse)
+US_states77<-data.frame(state.x77) %>%
+  rownames_to_column(., var = "State") %>%
+  tibble(Region = state.region,
+         Division = state.division,
+         Longitude=state.center$x,
+         Latitude=state.center$y)
+```
+
+Alternatively we could have exported the final data set in the folder w5LabProjectBlog instead of loading it for each post.
+
+-- To add some DV we need to add the following code chunks with the option include=F:
+
+```{r, eval=F}
+US_states77 %>%
+  hchart(type = "scatter", hcaes(x = Income, y = Life.Exp, group = Region))%>%
+  hc_xAxis(title=list(text="Per capita income"))%>%
+  hc_yAxis(title=list(text="Life expectancy"))%>%
+  hc_title(text = "<b>Income vs Life expectancy of US regions</b>",
+    align = "center", style = list(color = "black"))%>%
+  hc_tooltip(table = TRUE, useHTML = TRUE, valueDecimals = 1, formatter = JS("function () {
+            return 'Income: ' + this.x + '<br>Life.Exp: ' + this.y + ' ';}"))
+```
+
+```{r, eval=F}
+US_states77 %>%
+  hchart(type = "bubble", hcaes(x = Income, y = Life.Exp, size = Illiteracy, group = Region))%>%
+  hc_xAxis(title=list(text="Per capita income"), min=2950, max=6500)%>%
+  hc_yAxis(title=list(text="Life expectancy"))%>%
+  hc_title(text = "<b>Income, Life expectancy and Illiteracy of US states</b>",
+    align = "center", style = list(color = "black"))%>%
+  hc_plotOptions(bubble = list(maxSize = "10%"))%>%
+  hc_legend(title=list(text=paste(
+    "Illiteracy (% population)", '<span style="color: #F8F1E4;">space space space</span>',"Regions"
+    )), bubbleLegend =  list(enabled = TRUE))
+```
+
+-- Add an introduction and some description in the post.\
+- Save the edited files. This will automatically update the blog.\
+See files in shared folder>RLabs_students>RLabsNotes_students>w5>w5LabProjectBlog.
+
+We now have 2 posts in our blog!
+
+## Creating new tabs
+
+**Exercise:**\
+- Create a new tab named "Data"\
+- Add in this tab some description about the data set from week 4 RLabsNotes, section Week 4 data set.\
+- Add in this tab a DT table of the data set state.x77.\
+
+**Notes:** To include R code in a post/tab we need a Rmd file. For text only we can use a md file (e.g. format of the other default post files or About tab file).
+
+Solution:\
+- Create a new Rmd file (either from scratch or from copying and pasting one Rmd file from the posts)\
+- Name this new Rmd file "Data", i.e. Data.Rmd\
+- Put this Rmd file, i.e. Data.Rmd, in the content folder (where is about.md)\
+- Edit the date as today's date end re-title the post as "Data" (you can also modify the tags).\
+- Edit the tab, i.e. Data.Rmd, with some description about the data set from week 4 RLabsNotes, section Week 4 data set.\
+- To add a DT table of the data set state.x77 we add the following code chunks in the Rmd file, i.e. Data.Rmd, with the option include=F:
+```{r, eval=F}
+library(DT)
+library(tidyverse)
+```
+
+```{r, eval=F}
+state.x77 %>%
+  datatable()
+```
+\- In the file config.yaml add after line 18 (to create the tab):
+
+    - name: Data
+      url: /Data/
+\- Save the edited files. This will automatically update the blog.\
+See files in shared folder>RLabs_students>RLabsNotes_students>w5>w5LabProjectBlog.
+
+We now have added a Data tab!
+
+## Changing the home logo [optional]
+
+**Exercise:**(hard)\
+Change the home logo (orange circle with letters "Li" inside) to home.png (image available in w5 folder). 
+
+Solution:\
+- Copy home.png in w5/w5LabProjectBlog/themes/hugo-lithium/static/images\
+- Open config.yaml in folder w5LabProjectBlog and modify line 37 to:
+
+    url: home.png
+\- Save the edited files. This will automatically update the blog.\
+See files in shared folder>RLabs_students>RLabsNotes_students>w5>w5LabProjectBlog.
+
+## Quitting and re-opening the session
+
+You may want to quit and re-open the R session several time before finalizing the blog:\
+- when quitting, you do not need to save your session (you can if you want to avoid running all your code again but that is not necessary),\
+- when re-opening the session, if the blog does not show up in the Viewer tab, type the following in the console:
+```{r, eval=F}
+blogdown::serve_site()
+```
+
+Alternatively you can update the blog with the “Serve Site” addin (top section of R Studio, see RLabsBook section 5.4.3 R Studio ‘Addins’ with Blogdown).
+
+This gives you a local preview of the site when the site does not appear automatically.
+
+This only needs to be done once when you open the R project or restart the R session.
+
+## Updating public folder
+
+Recall that the public folder is the publishing directory, this folder is our website and it is what we need to upload and make available when we want to publish the website. To do so we need to update the public folder before publishing our blog (important!).
+
+**Important note:** If you have made a lot of changes, deleted and created several files and posts, it is recommended that you first delete the public folder completely and then run the below command to re-build the site.
+
+To do so you type the following in the console:
+```{r, eval=F}
+blogdown::build_site(local=TRUE)
+```
+
+Alternatively, if you just want to update previous posts you can either click on "Build Website" (top right of R Studio, with the hammer logo) or type the following in the console:
+```{r, eval=F}
+blogdown::hugo_build()
+```
+
+Your public folder is now up to date! Still check the files and sub-folders to be sure!
+
+## Publishing the blog online
+
+**Exercise:**
+Publish the blog to Netlify (first you should check that the public folder is up to date (see section Updating public folder).
+
+Solution:\
+See steps in RLabsBook section 5.4.5.4 Publishing a Website.\
+w5LabProjectBlog available online here (link): [https://w5labblog.netlify.app](https://w5labblog.netlify.app).
+
+Our first blog is published!
+
+**Note:** To update your blog online, click on your site in Netlify and click on "Production deploys", drag there your updated public folder.
+
+# More and references
+
+## Choose your theme first!
+
+You may want to personalized the theme of your blog. Here is a list of Hugo theme available (link): [Hugo Themes](https://themes.gohugo.io).
+
+It is recommended that you should first choose your theme before creating the content of your blog! For example, when you first create your blog (in an empty project) you can use the following for the Default Theme
+
+```{r, eval=F}
+blogdown::new_site()
+```
+
+or the following for the Ananke Gohugo Theme
+
+```{r, eval=F}
+blogdown::new_site(theme=theNewDynamic/gohugo-theme-ananke)
+```
+
+See an example in the shared folder>RVideosFAQ_students>Blogdown>Creating a blogdown site.mp4 and in the RLabsBook section 5.4.5 Blogdown: Example.
+
+**IMPORTANT NOTE**:\
+- Depending on your theme, the format of the config file can be a toml file instead of a yaml file.\
+- NOT ALL THEME ARE AUTOMATICALLY COMPATIBLE WITH Netlify MAKE SURE YOU CHOOSE A THEME COMPATIBLE FOR YOUR A3! TEST YOUR THEME ON Netlify FIRST (with some dummy interactive DV)!\
+- If your blog doesn't publish properly on Netlify: CHANGE YOUR THEME!\
+- For more you can read the following (link): [What to know before you adopt Hugo/blogdown](https://masalmon.eu/2020/02/29/hugo-maintenance/).
+
+## References
+
+For more options refer to the RlabsBook section 5.4 Blogdown.
+
+You can also refer to (links):\
+- [Blogdown book](https://bookdown.org/yihui/blogdown/)\
+- [What to know before you adopt Hugo/blogdown](https://masalmon.eu/2020/02/29/hugo-maintenance/)\
+- [Rmarkdown cheatsheet](https://github.com/rstudio/cheatsheets/blob/master/rmarkdown-2.0.pdf)
+
+# Extra exercises
+## Blogdown
+
+- Week 4 lab material
+
+To practice further, you can create more posts with more DV and descriptions.
+
+- Weeks 2 and 3 labs material
+
+You can also create a blog based on weeks 2 or 3 labs' material with a different theme to practice further.
+
+## Rmd
+The weekly Lab Notes are create with Rmd. 
+
+You can try to create weeks 1, 2 and 3 Rmd documents. To do so see the options for the code chunks in the RLabsBook and Rmarkdown cheatsheet.
+
+The original Rmd documents for those weekly Lab Notes will be copied in the folder by the end of week 5.

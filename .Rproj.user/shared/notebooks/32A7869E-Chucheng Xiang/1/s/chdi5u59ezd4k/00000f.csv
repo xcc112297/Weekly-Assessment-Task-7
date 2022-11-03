@@ -1,0 +1,2 @@
+"0","pieData <- floor(runif(4,1,8))"
+"0","pie(pieData, col =c(""red"",""skyblue"",""blue"",""green""))"

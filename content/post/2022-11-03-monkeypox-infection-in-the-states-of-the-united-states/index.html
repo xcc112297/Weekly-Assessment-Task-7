@@ -1,0 +1,41 @@
+---
+title: Monkeypox infection in the states of the United States
+author: Chucheng Xiang
+date: '2022-11-03'
+slug: monkeypox-infection-in-the-states-of-the-united-states
+categories:
+  - R
+tags:
+  - R Markdown
+---
+
+
+
+<p>Monkeypox has quietly become popular in the United States. Based on the experience and lessons from COVID-19, we need to detect and warn this virus in advance, so we collected infection data from various states and made DV.</p>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+## ✔ ggplot2 3.3.6      ✔ purrr   0.3.5 
+## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
+## ✔ tidyr   1.2.1      ✔ stringr 1.4.1 
+## ✔ readr   2.1.3      ✔ forcats 0.5.2 
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<pre><code>## The USAboundariesData package needs to be installed.
+##  Please try installing the package using the following command: 
+##      install.packages(&quot;USAboundariesData&quot;, repos = &quot;https://ropensci.r-universe.dev&quot;, type = &quot;source&quot;)
+## Loading required package: maps
+## 
+## Attaching package: &#39;maps&#39;
+## 
+## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     map
+## 
+## Rows: 53 Columns: 4── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (3): Location, Case_Range, AsOf
+## dbl (1): Cases
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<p><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>

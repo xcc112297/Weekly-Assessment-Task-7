@@ -1,0 +1,36 @@
+---
+title: "Comm2501/5501 Weekly Assessment Task 5"
+author: "Chucheng Xiang"
+date: "2022-10-26"
+output: word_document
+---
+### My Name is Chucheng Xiang
+
+**My favorite subject at high school was history**
+
+*My favourite movie is The Legend of 1900*
+
+My favorite foods are
+
+  + lentils
+  + string beans
+  + broccoli
+
+Here is a pretty pie chart
+
+
+
+
+```{r, piechart, echo=FALSE}
+pieData <- floor(runif(4,1,8))
+pie(pieData, col =c("red","skyblue","blue","green"))
+```
+
+
+Here is a cute kitten
+
+```{r, echo=FALSE, out.width='100%'}
+library(knitr)
+getwd()
+include_graphics("C:/Users/93500/Desktop/cat.jpg")
+```
